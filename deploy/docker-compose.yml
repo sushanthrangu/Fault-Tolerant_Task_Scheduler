@@ -1,0 +1,51 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: scheduler
+    ports:
+      - "3310:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../infra/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.api
+    environment:
+      DB_DSN: "root:root@tcp(mysql:3306)/scheduler?parseTime=true"
+      PORT: "8085"
+    ports:
+      - "8086:8085"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.worker
+    environment:
+      DB_DSN: "root:root@tcp(mysql:3306)/scheduler?parseTime=true"
+      WORKER_ID: "worker-1"
+      POLL_INTERVAL_MS: "500"
+      LEASE_SECONDS: "30"
+      WORKER_POOL_SIZE: "6"
+      JOB_QUEUE_SIZE: "200"
+      FAIL_RATE: "0.3"
+      BACKOFF_BASE_MS: "500"
+      BACKOFF_MAX_MS: "30000"
+      BACKOFF_JITTER: "0.2"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
