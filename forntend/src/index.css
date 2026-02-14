@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 7%;
+    --foreground: 210 20% 90%;
+
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 90%;
+
+    --popover: 220 18% 12%;
+    --popover-foreground: 210 20% 90%;
+
+    --primary: 142 60% 45%;
+    --primary-foreground: 220 20% 7%;
+
+    --secondary: 220 16% 16%;
+    --secondary-foreground: 210 20% 80%;
+
+    --muted: 220 14% 14%;
+    --muted-foreground: 215 15% 50%;
+
+    --accent: 38 90% 55%;
+    --accent-foreground: 220 20% 7%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 14% 18%;
+    --input: 220 14% 18%;
+    --ring: 142 60% 45%;
+
+    --radius: 0.5rem;
+
+    --chart-1: 142 60% 45%;
+    --chart-2: 38 90% 55%;
+    --chart-3: 0 70% 50%;
+    --chart-4: 200 70% 50%;
+    --chart-5: 280 60% 55%;
+
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 142 60% 45%;
+    --sidebar-primary-foreground: 220 20% 7%;
+    --sidebar-accent: 220 16% 16%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 220 14% 18%;
+    --sidebar-ring: 142 60% 45%;
+
+    /* Custom tokens */
+    --status-pending: 38 90% 55%;
+    --status-running: 200 70% 50%;
+    --status-success: 142 60% 45%;
+    --status-failed: 0 70% 50%;
+
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-sans: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-sans);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono) !important;
+  }
+}
+
+@layer utilities {
+  .status-pending {
+    @apply bg-accent/15 text-accent border border-accent/30;
+  }
+  .status-running {
+    background: hsl(200 70% 50% / 0.15);
+    color: hsl(200 70% 50%);
+    border: 1px solid hsl(200 70% 50% / 0.3);
+  }
+  .status-success {
+    @apply bg-primary/15 text-primary border border-primary/30;
+  }
+  .status-failed {
+    @apply bg-destructive/15 text-destructive border border-destructive/30;
+  }
+
+  .glow-green {
+    box-shadow: 0 0 12px hsl(142 60% 45% / 0.2);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 12px hsl(0 70% 50% / 0.2);
+  }
+
+  .card-glow {
+    box-shadow: 0 1px 3px hsl(0 0% 0% / 0.3), 0 0 20px hsl(142 60% 45% / 0.03);
+  }
+}
